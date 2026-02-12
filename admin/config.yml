@@ -3,8 +3,7 @@ backend:
   repo: davidamosbanda/share-love-ministry
   branch: main
   base_url: https://api.netlify.com
-  auth_type: oauth
-  client_id: Ov23lihOM8mzUqkLgHOL
+  app_id: Ov23lihOM8mzUqkLgHOL
 
 media_folder: "images"
 public_folder: "/images"
