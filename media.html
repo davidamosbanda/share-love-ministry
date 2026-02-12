@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media | S.H.A.R.E L.O.V.E</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: sans-serif; margin: 0; text-align: center; }
+        header { background: #4b2c5e; color: white; padding: 80px; }
+        /* Improved grid for better responsiveness */
+        .gallery { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+            padding: 40px 10%; 
+        }
+        .media-card { background: #f9f9f9; padding: 15px; border-radius: 8px; border-bottom: 3px solid #d4af37; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .media-img { width: 100%; height: auto; border-radius: 4px; }
+        h3 { font-family: 'Playfair Display'; color: #4b2c5e; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="font-family: 'Playfair Display';">Media Gallery</h1>
+        <a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">← Back to Home</a>
+    </header>
+
+    <div class="gallery" id="media-gallery">
+        <p>Loading the latest ministry media...</p>
+    </div>
+
+    <script>
+        async function loadMedia() {
+            try {
+                // This connects to the "Media Content" she creates in Admin
+                const response = await fetch('/_media/index.json');
+                const items = await response.json();
+                const gallery = document.getElementById('media-gallery');
+                
+                if (items.length === 0) {
+                    gallery.innerHTML = "<p>No media posted yet.</p>";
+                    return;
+                }
+
+                gallery.innerHTML = ''; // Clear the "Loading" text
+
+                items.forEach(item => {
+                    let mediaContent = '';
+                    
+                    if (item.video_url) {
+                        // Cleans the YouTube link so it plays correctly
+                        const videoId = item.video_url.split('v=')[1] || item.video_url.split('/').pop();
+                        mediaContent = `
+                            <div class="video-container">
+                                <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+                            </div>`;
+                    } else if (item.image) {
+                        mediaContent = `<img src="${item.image}" class="media-img" alt="${item.title}">`;
+                    }
+
+                    gallery.innerHTML += `
+                        <div class="media-card">
+                            ${mediaContent}
+                            <h3>${item.title}</h3>
+                        </div>
+                    `;
+                });
+            } catch (e) {
+                console.log("Admin media not found, showing defaults.");
+                document.getElementById('media-gallery').innerHTML = "<p>Start adding media in the Admin panel!</p>";
+            }
+        }
+        window.onload = loadMedia;
+    </script>
+</body>
+</html>

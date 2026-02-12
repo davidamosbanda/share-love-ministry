@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | S.H.A.R.E L.O.V.E</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: #fff; }
+        header { background: var(--royal-purple); color: white; padding: 60px; text-align: center; }
+        .section-title { font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-top: 60px; color: var(--royal-purple); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px 10% 40px; }
+        .card { border-bottom: 4px solid var(--gold-accent); padding: 20px; background: #f9f9f9; border-radius: 8px; }
+        .status { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--gold-accent); font-weight: bold; }
+        img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="font-family: 'Playfair Display';">Kingdom Projects</h1>
+        <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; letter-spacing: 1px;">Return Home</a>
+    </header>
+
+    <h2 class="section-title">Past Victories</h2>
+    <div class="grid" id="grid-Past">
+        </div>
+
+    <h2 class="section-title">Ongoing Missions</h2>
+    <div class="grid" id="grid-Ongoing">
+        </div>
+
+    <h2 class="section-title">Upcoming Visions</h2>
+    <div class="grid" id="grid-Upcoming">
+        </div>
+
+    <script>
+        async function fetchProjects() {
+            try {
+                // Fetch the list of projects from the admin folder
+                const response = await fetch('/_projects/index.json');
+                const data = await response.json();
+                
+                // This logic sorts the projects into the right sections
+                data.forEach(project => {
+                    const sectionGrid = document.getElementById(`grid-${project.status}`);
+                    if (sectionGrid) {
+                        const card = `
+                            <div class="card">
+                                <span class="status">${project.status}</span>
+                                ${project.image ? `<img src="${project.image}" alt="${project.title}">` : ''}
+                                <h3>${project.title}</h3>
+                                <p>${project.body}</p>
+                            </div>
+                        `;
+                        sectionGrid.innerHTML += card;
+                    }
+                });
+            } catch (e) {
+                console.log("No projects found yet. Start adding them in the Admin panel!");
+            }
+        }
+        window.onload = fetchProjects;
+    </script>
+</body>
+</html>

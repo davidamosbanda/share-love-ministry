@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.H.A.R.E L.O.V.E | Medical Ministry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        :root { --royal-purple: #4b2c5e; --noble-white: #ffffff; --gold-accent: #d4af37; --soft-gray: #f8f9fa; }
+        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--noble-white); color: #333; overflow-x: hidden; }
+
+        /* Navigation */
+        .nav-bar {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 50px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: var(--noble-white); text-decoration: none; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold-accent); }
+
+        /* HERO SLIDER LOGIC */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--noble-white);
+            text-align: center;
+            overflow: hidden;
+            background: var(--royal-purple);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 1;
+        }
+
+        .slide.active { opacity: 1; }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(75, 44, 94, 0.5);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 7rem);
+            letter-spacing: 20px;
+            margin: 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            color: var(--gold-accent);
+        }
+
+        .cta-section { padding: 100px 10%; text-align: center; background: var(--soft-gray); }
+        .btn-gold { 
+            background: var(--gold-accent); color: var(--royal-purple); 
+            padding: 15px 40px; text-decoration: none; font-weight: bold; 
+            border-radius: 50px; display: inline-block; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-gold:hover { transform: scale(1.05); background: var(--noble-white); border: 1px solid var(--gold-accent); }
+
+        footer { background: var(--royal-purple); color: white; padding: 40px; text-align: center; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-bar">
+        <div style="font-weight: bold; color: var(--gold-accent); letter-spacing: 2px;">S.H.A.R.E</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="who-we-are.html">Who We Are</a>
+            <a href="media.html">Media</a>
+            <a href="projects.html">Projects</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero-slider">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=2070');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070');"></div>
+
+        <div class="hero-content">
+            <h1>S.H.A.R.E L.O.V.E</h1>
+            <p>Medicine • Mercy • Ministry</p>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem;">Stopping for the One</h2>
+        <p style="max-width: 700px; margin: 20px auto 40px; line-height: 1.8;">Inspired by a legacy of clinical excellence and radical compassion, we provide medical advocacy to the least of these.</p>
+        <a href="projects.html" class="btn-gold">View Our Projects</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 S.H.A.R.E L.O.V.E MINISTRY</p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let slideInterval;
+
+        async function initSlider() {
+            try {
+                // Fetch photos she uploaded in the Admin Panel
+                const response = await fetch('/_content/slider.json');
+                const data = await response.json();
+                const hero = document.getElementById('hero-slider');
+                
+                if (data.slides && data.slides.length > 0) {
+                    // Wipe the default static slides to use her custom ones
+                    document.querySelectorAll('.slide').forEach(s => s.remove());
+
+                    data.slides.forEach((slide, index) => {
+                        const div = document.createElement('div');
+                        div.className = index === 0 ? 'slide active' : 'slide';
+                        div.style.backgroundImage = `url('${slide.image}')`;
+                        hero.insertBefore(div, hero.firstChild);
+                    });
+                }
+            } catch (e) {
+                console.log("No custom admin images found yet. Using defaults.");
+            }
+            startRotation();
+        }
+
+        function startRotation() {
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length <= 1) return;
+            
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 5000);
+        }
+
+        window.onload = initSlider;
+    </script>
+
+</body>
+</html>
