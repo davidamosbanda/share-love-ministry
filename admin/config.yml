@@ -1,0 +1,73 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  # NEW: HOME PAGE SLIDER SECTION
+  - name: "homepage"
+    label: "Home Page Slider"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - label: "Slider Images"
+        name: "slider"
+        file: "_content/slider.json"
+        fields:
+          - label: "Photos"
+            name: "slides"
+            widget: "list"
+            summary: "{{fields.image}}"
+            fields:
+              - {label: "Upload Photo", name: "image", widget: "image"}
+              - {label: "Photo Description", name: "alt", widget: "string", required: false}
+
+  # WHO WE ARE SECTION
+  - name: "who_we_are"
+    label: "Who We Are"
+    files:
+      - label: "Page Content"
+        name: "about"
+        file: "_content/who-we-are.json"
+        fields:
+          - {label: "Main Heading", name: "title", widget: "string", default: "Who We Are"}
+          - {label: "The Story", name: "body", widget: "markdown"}
+          - {label: "Featured Photo", name: "image", widget: "image"}
+
+  # PROJECTS SECTION
+  - name: "projects"
+    label: "Projects"
+    folder: "_projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Project Title", name: "title", widget: "string"}
+      - {label: "Status", name: "status", widget: "select", options: ["Past", "Ongoing", "Upcoming"]}
+      - {label: "Short Summary", name: "summary", widget: "text"}
+      - {label: "Full Description", name: "body", widget: "markdown"}
+      - {label: "Project Photo", name: "image", widget: "image"}
+
+  # MEDIA SECTION
+  - name: "media"
+    label: "Media Content"
+    folder: "_media"
+    create: true
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Video URL (YouTube/Vimeo)", name: "video_url", widget: "string", required: false}
+      - {label: "Photo", name: "image", widget: "image", required: false}
+
+  # DONATION SECTION
+  - name: "support"
+    label: "Donation Settings"
+    files:
+      - label: "Payment Info"
+        name: "payment_info"
+        file: "_content/donations.json"
+        fields:
+          - {label: "Venmo Username", name: "venmo", widget: "string"}
+          - {label: "Zelle Details", name: "zelle", widget: "string"}
+          - {label: "GoFundMe URL", name: "gofundme", widget: "string"}
