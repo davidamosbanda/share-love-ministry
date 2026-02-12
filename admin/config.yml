@@ -1,14 +1,11 @@
----
 backend:
   name: github
   repo: davidamosbanda/share-love-ministry
   branch: main
   base_url: https://api.netlify.com
   app_id: Ov23lihOM8mzUqkLgHOL
-
 media_folder: "images"
 public_folder: "/images"
-
 collections:
   - name: "projects"
     label: "Projects"
@@ -23,7 +20,6 @@ collections:
       - {label: "Short Summary", name: "summary", widget: "text"}
       - {label: "Full Description", name: "body", widget: "markdown"}
       - {label: "Project Photo", name: "image", widget: "image"}
-
   - name: "homepage"
     label: "Home Page Slider"
     delete: false
