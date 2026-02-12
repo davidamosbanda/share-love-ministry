@@ -1,7 +1,10 @@
-backend:
+
+  backend:
   name: github
   repo: davidamosbanda/share-love-ministry
   branch: main
+  base_url: https://api.netlify.com # This tells it to use the login handshake
+  
 
 media_folder: "images"
 public_folder: "/images"
