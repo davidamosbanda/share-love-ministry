@@ -1,3 +1,0 @@
-[build]
-  command = "mkdir -p _projects _media _content && echo '[]' > _projects/index.json && echo '[]' > _media/index.json"
-  publish = "."
