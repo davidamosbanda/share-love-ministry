@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects | S.H.A.R.E L.O.V.E</title>
+    <title>Projects | S.H.A.R.E LOVE</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
     <style>
         :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; }
@@ -11,9 +11,10 @@
         header { background: var(--royal-purple); color: white; padding: 60px; text-align: center; }
         .section-title { font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-top: 60px; color: var(--royal-purple); }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px 10% 40px; }
-        .card { border-bottom: 4px solid var(--gold-accent); padding: 20px; background: #f9f9f9; border-radius: 8px; }
+        .card { border-bottom: 4px solid var(--gold-accent); padding: 20px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .status { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--gold-accent); font-weight: bold; }
         img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin: 10px 0; }
+        h3 { color: var(--royal-purple); margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -23,41 +24,49 @@
     </header>
 
     <h2 class="section-title">Past Victories</h2>
-    <div class="grid" id="grid-Past">
-        </div>
+    <div class="grid" id="grid-Past"></div>
 
     <h2 class="section-title">Ongoing Missions</h2>
-    <div class="grid" id="grid-Ongoing">
-        </div>
+    <div class="grid" id="grid-Ongoing"></div>
 
     <h2 class="section-title">Upcoming Visions</h2>
-    <div class="grid" id="grid-Upcoming">
-        </div>
+    <div class="grid" id="grid-Upcoming"></div>
 
     <script>
         async function fetchProjects() {
+            const repo = "davidamosbanda/share-love-ministry";
+            const apiURL = `https://api.github.com/repos/${repo}/contents/_projects`;
+            
             try {
-                // Fetch the list of projects from the admin folder
-                const response = await fetch('/_projects/index.json');
-                const data = await response.json();
+                const response = await fetch(apiURL);
+                const files = await response.json();
                 
-                // This logic sorts the projects into the right sections
-                data.forEach(project => {
-                    const sectionGrid = document.getElementById(`grid-${project.status}`);
-                    if (sectionGrid) {
-                        const card = `
-                            <div class="card">
-                                <span class="status">${project.status}</span>
-                                ${project.image ? `<img src="${project.image}" alt="${project.title}">` : ''}
-                                <h3>${project.title}</h3>
-                                <p>${project.body}</p>
-                            </div>
-                        `;
-                        sectionGrid.innerHTML += card;
+                // Clear grids first
+                document.getElementById('grid-Past').innerHTML = '';
+                document.getElementById('grid-Ongoing').innerHTML = '';
+                document.getElementById('grid-Upcoming').innerHTML = '';
+
+                for (const file of files) {
+                    if (file.name.endsWith('.json')) {
+                        const contentRes = await fetch(file.download_url);
+                        const project = await contentRes.json();
+
+                        const sectionGrid = document.getElementById(`grid-${project.status}`);
+                        if (sectionGrid) {
+                            const card = `
+                                <div class="card">
+                                    <span class="status">${project.status}</span>
+                                    ${project.image ? `<img src="${project.image}" alt="${project.title}">` : ''}
+                                    <h3>${project.title}</h3>
+                                    <p>${project.summary || ''}</p>
+                                </div>
+                            `;
+                            sectionGrid.innerHTML += card;
+                        }
                     }
-                });
+                }
             } catch (e) {
-                console.log("No projects found yet. Start adding them in the Admin panel!");
+                console.error("Error loading projects:", e);
             }
         }
         window.onload = fetchProjects;
