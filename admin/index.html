@@ -16,9 +16,9 @@
             border-bottom: 5px solid var(--gold-accent);
         }
         h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; text-transform: uppercase; letter-spacing: 4px; }
-        /* This hides the preview pane area if the script below doesn't catch it */
-        #nc-root .nc-entryEditor-controlPane { width: 100% !important; }
-        #nc-root .nc-entryEditor-previewPane { display: none !important; }
+        /* FORCE FULL WIDTH: This ensures the form takes up the whole screen */
+        .nc-entryEditor-controlPane { width: 100% !important; max-width: 100% !important; }
+        .nc-entryEditor-previewPane { display: none !important; }
     </style>
 </head>
 <body>
@@ -26,11 +26,12 @@
         <h1>S.H.A.R.E LOVE</h1>
     </header>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-        <script>
-        // KILL THE MADNESS: This stops the CMS from even trying to render a preview
+    <script>
+        // KILL THE MADNESS: Stops the CMS from trying to render previews for ALL collections
         CMS.registerPreviewTemplate("projects", () => null);
         CMS.registerPreviewTemplate("pages", () => null);
         CMS.registerPreviewTemplate("homepage", () => null);
+        CMS.registerPreviewTemplate("media", () => null); // ADDED THIS to cover your new media gallery
     </script>
 </body>
 </html>
