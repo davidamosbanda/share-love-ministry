@@ -8,6 +8,7 @@ backend:
   auth_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/pkce
   auth_token_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/token
   gateway_url: https://gateway.decapbridge.com
+  publish_mode: simple
 # 2. Kill the Madness (UI CLEANUP)
 show_preview_links: false
 display_url: https://davidamosbanda.github.io/share-love-ministry/
