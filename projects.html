@@ -4,23 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | S.H.A.R.E LOVE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; }
+        :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; --soft-gray: #f8f9fa; }
         body { font-family: 'Inter', sans-serif; margin: 0; background: #fff; }
-        header { background: var(--royal-purple); color: white; padding: 60px; text-align: center; }
+        header { background: var(--royal-purple); color: white; padding: 60px; text-align: center; border-bottom: 5px solid var(--gold-accent); }
+        
         .section-title { font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-top: 60px; color: var(--royal-purple); }
+        
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px 10% 40px; }
-        .card { border-bottom: 4px solid var(--gold-accent); padding: 20px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* Clickable Card Styling */
+        .project-link { text-decoration: none; color: inherit; display: block; }
+        
+        .card { 
+            border-bottom: 4px solid var(--gold-accent); 
+            padding: 20px; 
+            background: #f9f9f9; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            background: #fff;
+        }
+
         .status { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--gold-accent); font-weight: bold; }
-        img { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin: 10px 0; }
-        h3 { color: var(--royal-purple); margin: 10px 0; }
+        
+        img { width: 100%; height: 220px; object-fit: cover; border-radius: 4px; margin: 15px 0; background: #eee; }
+        
+        h3 { color: var(--royal-purple); margin: 10px 0; font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+        
+        p { line-height: 1.6; color: #555; font-size: 0.95rem; }
     </style>
 </head>
 <body>
+
     <header>
-        <h1 style="font-family: 'Playfair Display';">Kingdom Projects</h1>
-        <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; letter-spacing: 1px;">Return Home</a>
+        <h1 style="font-family: 'Playfair Display'; letter-spacing: 2px;">KINGDOM PROJECTS</h1>
+        <a href="index.html" style="color: var(--gold-accent); text-decoration: none; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">← Return Home</a>
     </header>
 
     <h2 class="section-title">Past Victories</h2>
@@ -41,7 +67,7 @@
                 const response = await fetch(apiURL);
                 const files = await response.json();
                 
-                // Clear grids first
+                // Clear grids
                 document.getElementById('grid-Past').innerHTML = '';
                 document.getElementById('grid-Ongoing').innerHTML = '';
                 document.getElementById('grid-Upcoming').innerHTML = '';
@@ -53,13 +79,20 @@
 
                         const sectionGrid = document.getElementById(`grid-${project.status}`);
                         if (sectionGrid) {
+                            // PHOTO FIX: Ensure path includes 'images/' correctly
+                            const imgPath = project.image.startsWith('images/') ? project.image : `images/${project.image}`;
+                            
+                            // CLICK FIX: Wrap the card in an <a> tag pointing to a detail page
                             const card = `
-                                <div class="card">
-                                    <span class="status">${project.status}</span>
-                                    ${project.image ? `<img src="${project.image}" alt="${project.title}">` : ''}
-                                    <h3>${project.title}</h3>
-                                    <p>${project.summary || ''}</p>
-                                </div>
+                                <a href="project-detail.html?title=${encodeURIComponent(project.title)}" class="project-link">
+                                    <div class="card">
+                                        <span class="status">${project.status}</span>
+                                        ${project.image ? `<img src="${imgPath}" alt="${project.title}">` : ''}
+                                        <h3>${project.title}</h3>
+                                        <p>${project.summary || ''}</p>
+                                        <div style="margin-top: 15px; color: var(--royal-purple); font-weight: 600; font-size: 0.8rem;">READ FULL STORY →</div>
+                                    </div>
+                                </a>
                             `;
                             sectionGrid.innerHTML += card;
                         }
@@ -67,6 +100,8 @@
                 }
             } catch (e) {
                 console.error("Error loading projects:", e);
+                const grids = document.querySelectorAll('.grid');
+                grids.forEach(g => g.innerHTML = "<p>Adding ministry updates now...</p>");
             }
         }
         window.onload = fetchProjects;
