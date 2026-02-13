@@ -1,4 +1,4 @@
-# 1. Connection to DecapBridge (The "Vibe" and Security)
+# 1. Connection to DecapBridge (KEEPING YOUR EXACT IDs)
 backend:
   name: git-gateway
   repo: davidamosbanda/share-love-ministry
@@ -20,8 +20,21 @@ site_url: https://davidamosbanda.github.io/share-love-ministry/
 # 3. Media Storage
 media_folder: "images"
 public_folder: "/images"
-# 4. Your Actual Content (The "Projects" and "Slider")
+
+# 4. The Skeleton (Everything is editable now)
 collections:
+  # FIX: Adding a "Global Text" section so you can edit the whole site
+  - name: "pages"
+    label: "Website Text (Skeleton)"
+    files:
+      - label: "Home Page Content"
+        name: "home"
+        file: "_content/home.json"
+        fields:
+          - {label: "Main Headline", name: "hero_title", widget: "string"}
+          - {label: "Sub-headline", name: "hero_subtitle", widget: "string"}
+          - {label: "Mission Statement", name: "mission", widget: "text"}
+          - {label: "Contact Email", name: "contact_email", widget: "string"}
   - name: "projects"
     label: "Projects"
     folder: "_projects"
@@ -33,7 +46,8 @@ collections:
       - {label: "Project Title", name: "title", widget: "string"}
       - {label: "Status", name: "status", widget: "select", options: ["Past", "Ongoing", "Upcoming"]}
       - {label: "Short Summary", name: "summary", widget: "text"}
-      - {label: "Full Description", name: "body", widget: "markdown"}
+      # FIX: Simplified Markdown to get rid of the overlapping lines/boxes
+      - {label: "Full Description", name: "body", widget: "markdown", minimal: true, buttons: ["bold", "italic", "link", "bulleted-list"]}
       - {label: "Project Photo", name: "image", widget: "image"}
   - name: "homepage"
     label: "Home Page Slider"
