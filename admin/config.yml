@@ -12,7 +12,7 @@ backend:
 show_preview_links: false
 display_url: https://davidamosbanda.github.io/share-love-ministry/
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
-# This disables the horizontal preview pane globally
+# Disables the horizontal preview pane and duplicate bars globally
 editor:
   preview: false
 # 3. Media Settings (FIXED PATHS)
@@ -22,7 +22,7 @@ public_folder: "images"
 collections:
   - name: "pages"
     label: "Website Text (Skeleton)"
-    publish: false # Hides the redundant 'Quick Actions' and 'Status' bar
+    publish: false 
     files:
       - label: "Home Page Content"
         name: "home"
@@ -38,7 +38,7 @@ collections:
     extension: "json"
     format: "json"
     create: true
-    publish: false # Kills the 'Media/Content' horizontal noise
+    publish: false 
     slug: "{{slug}}"
     fields:
       - {label: "Project Title", name: "title", widget: "string"}
@@ -46,6 +46,18 @@ collections:
       - {label: "Short Summary", name: "summary", widget: "text"}
       - {label: "Full Description", name: "body", widget: "text"} 
       - {label: "Project Photo", name: "image", widget: "image"}
+  - name: "media"
+    label: "Media Gallery"
+    folder: "_media"
+    extension: "json"
+    format: "json"
+    create: true
+    publish: false
+    slug: "{{title}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Upload Photo", name: "image", widget: "image", required: false}
+      - {label: "OR YouTube Link", name: "video_url", widget: "string", required: false, hint: "Paste full YouTube URL here"}
   - name: "homepage"
     label: "Home Page Slider"
     publish: false
