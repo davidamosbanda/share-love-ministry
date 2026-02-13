@@ -5,118 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.H.A.R.E L.O.V.E | Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --royal-purple: #4b2c5e; --noble-white: #ffffff; --gold-accent: #d4af37; --soft-gray: #f8f9fa; }
         body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--noble-white); color: #333; overflow-x: hidden; }
 
-        /* FIXED TOP RIGHT NAVIGATION */
         .nav-bar {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 25px 50px;
-            z-index: 1000;
-            box-sizing: border-box;
-            background: rgba(75, 44, 94, 0.15);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: flex-end; align-items: center;
+            padding: 25px 50px; z-index: 1000; box-sizing: border-box;
+            background: rgba(75, 44, 94, 0.15); backdrop-filter: blur(8px);
         }
         .nav-links { display: flex; gap: 30px; }
-        .nav-links a { 
-            color: var(--noble-white); 
-            text-decoration: none; 
-            text-transform: uppercase; 
-            font-size: 0.85rem; 
-            letter-spacing: 2px; 
-            font-weight: 600; 
-            transition: 0.3s;
-            border-bottom: 2px solid transparent;
-            padding-bottom: 5px;
-        }
-        .nav-links a:hover { color: var(--gold-accent); border-bottom: 2px solid var(--gold-accent); }
+        .nav-links a { color: var(--noble-white); text-decoration: none; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold-accent); }
 
-        /* HERO SLIDER */
         .hero {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--noble-white);
-            text-align: center;
-            overflow: hidden;
-            background: var(--royal-purple); /* Background shows if no images load */
+            position: relative; height: 100vh; width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--noble-white); text-align: center; overflow: hidden;
+            background: var(--royal-purple);
         }
-
-        .slide {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            z-index: 1;
-        }
-
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; }
         .slide.active { opacity: 1; }
-
-        .hero::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 2;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 3;
-            max-width: 90%;
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 8vw, 6rem);
-            letter-spacing: 12px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            margin-top: 15px;
-            color: var(--gold-accent);
-        }
-
-        /* MISSION SECTION - COMPLETELY FLUID */
-        .cta-section { padding: 120px 10%; text-align: center; background: var(--noble-white); }
-        .cta-section h2 { font-family: 'Playfair Display'; font-size: 3rem; color: var(--royal-purple); margin-bottom: 20px; }
+        .hero::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 6rem); letter-spacing: 12px; margin: 0; text-transform: uppercase; }
         
-        #mission-body { 
-            max-width: 800px; 
-            margin: 0 auto 45px; 
-            line-height: 2; 
-            font-size: 1.3rem; 
-            color: #444;
-        }
+        .cta-section { padding: 100px 10%; text-align: center; }
+        #mission-body { max-width: 800px; margin: 0 auto 40px; line-height: 2; font-size: 1.3rem; }
 
-        .btn-gold { 
-            background: var(--gold-accent); color: var(--royal-purple); 
-            padding: 18px 50px; text-decoration: none; font-weight: bold; 
-            border-radius: 50px; display: inline-block; transition: 0.3s;
-            text-transform: uppercase; letter-spacing: 2px;
+        /* CONTACT & SOCIAL FOOTER */
+        .footer-content { background: var(--royal-purple); color: white; padding: 60px 20px; text-align: center; }
+        .social-icons { margin: 20px 0; display: flex; justify-content: center; gap: 25px; }
+        .social-icons a { color: var(--gold-accent); font-size: 1.8rem; transition: 0.3s; }
+        .social-icons a:hover { transform: scale(1.2); color: white; }
+        .contact-btn { 
+            background: transparent; border: 2px solid var(--gold-accent); color: var(--gold-accent);
+            padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: bold;
+            display: inline-block; margin-top: 20px; transition: 0.3s;
         }
-        .btn-gold:hover { transform: translateY(-3px); background: #eacb6a; }
-
-        footer { background: var(--royal-purple); color: white; padding: 40px; text-align: center; font-size: 0.8rem; }
+        .contact-btn:hover { background: var(--gold-accent); color: var(--royal-purple); }
     </style>
 </head>
 <body>
@@ -132,72 +61,68 @@
 
     <section class="hero" id="hero-slider">
         <div class="hero-content">
-            <h1 id="hero-title"></h1> <p id="hero-subtitle"></p> </div>
+            <h1 id="hero-title">S.H.A.R.E LOVE</h1>
+            <p id="hero-subtitle">Medicine • Mercy • Ministry</p>
+        </div>
     </section>
 
     <section class="cta-section">
-        <h2 id="mission-title"></h2> <p id="mission-body"></p> <a href="projects.html" class="btn-gold">View Our Projects</a>
+        <h2 id="mission-title" style="font-family:'Playfair Display'; color:var(--royal-purple); font-size: 2.5rem;">Our Mission</h2>
+        <p id="mission-body">Loading mission...</p>
+        <a href="projects.html" style="background:var(--gold-accent); color:var(--royal-purple); padding:15px 40px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; text-transform:uppercase;">View Projects</a>
     </section>
 
-    <footer>
-        <p id="footer-text">&copy; 2026 S.H.A.R.E L.O.V.E MINISTRY</p>
+    <footer class="footer-content">
+        <div class="social-icons">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <a href="#" id="contact-link" class="contact-btn">CONTACT US</a>
+        <p style="margin-top:40px; font-size: 0.8rem; opacity: 0.6;">&copy; 2026 S.H.A.R.E L.O.V.E MINISTRY</p>
     </footer>
 
     <script>
         let currentSlide = 0;
         let slideInterval;
+        let contactEmail = "";
 
-        // 1. DYNAMIC TEXT LOADER (No static backups)
-        async function loadHomeContent() {
+        async function loadAllData() {
             try {
-                // Fetch with cache-buster to ensure admin changes show immediately
-                const response = await fetch('_content/home.json?t=' + Date.now());
-                const data = await response.json();
+                // 1. Fetch Text and Email
+                const homeRes = await fetch('_content/home.json?t=' + Date.now());
+                const homeData = await homeRes.json();
+                if(homeData.hero_title) document.getElementById('hero-title').innerText = homeData.hero_title;
+                if(homeData.hero_subtitle) document.getElementById('hero-subtitle').innerText = homeData.hero_subtitle;
+                if(homeData.mission) document.getElementById('mission-body').innerText = homeData.mission;
                 
-                if(data.hero_title) document.getElementById('hero-title').innerText = data.hero_title;
-                if(data.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.hero_subtitle;
-                if(data.hero_title) document.getElementById('mission-title').innerText = data.hero_title; // Links title to mission header
-                if(data.mission) document.getElementById('mission-body').innerText = data.mission;
-            } catch (e) {
-                console.log("Waiting for CMS data...");
-            }
-        }
+                // Set hidden email
+                if(homeData.contact_email) {
+                    contactEmail = homeData.contact_email;
+                    document.getElementById('contact-link').href = `mailto:${contactEmail}?subject=Inquiry from Website`;
+                }
 
-        // 2. CACHE-BUSTING SLIDER LOADER
-        async function initSlider() {
-            try {
-                const response = await fetch('_content/slider.json?t=' + Date.now());
-                const data = await response.json();
+                // 2. Fetch Slider
+                const sliderRes = await fetch('_content/slider.json?t=' + Date.now());
+                const sliderData = await sliderRes.json();
                 const hero = document.getElementById('hero-slider');
                 
-                if (data.slides && data.slides.length > 0) {
-                    // Wipe all old slides immediately
+                if (sliderData.slides && sliderData.slides.length > 0) {
                     document.querySelectorAll('.slide').forEach(s => s.remove());
-                    
-                    data.slides.forEach((slide, index) => {
+                    sliderData.slides.forEach((slide, index) => {
                         const div = document.createElement('div');
                         div.className = (index === 0) ? 'slide active' : 'slide';
-                        
-                        // Handle all image path variations (images/ folder)
-                        let imgPath = slide.image;
-                        if (!imgPath.startsWith('http') && !imgPath.startsWith('images/')) {
-                            imgPath = 'images/' + imgPath;
-                        }
-                        
+                        let imgPath = slide.image.startsWith('images/') ? slide.image : `images/${slide.image}`;
                         div.style.backgroundImage = `url('${imgPath}')`;
                         hero.insertBefore(div, hero.firstChild);
                     });
                     startRotation();
                 }
-            } catch (e) {
-                console.log("Add slider photos in Admin to replace purple background.");
-            }
+            } catch (e) { console.log("Check if JSON files are published on GitHub."); }
         }
 
         function startRotation() {
             const slides = document.querySelectorAll('.slide');
             if (slides.length <= 1) return;
-            
             clearInterval(slideInterval);
             slideInterval = setInterval(() => {
                 slides[currentSlide].classList.remove('active');
@@ -206,10 +131,7 @@
             }, 5000);
         }
 
-        window.onload = () => {
-            loadHomeContent();
-            initSlider();
-        };
+        window.onload = loadAllData;
     </script>
 </body>
 </html>
