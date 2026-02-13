@@ -3,28 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.H.A.R.E L.O.V.E | Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root { --royal-purple: #4b2c5e; --noble-white: #ffffff; --gold-accent: #d4af37; --soft-gray: #f8f9fa; }
         body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--noble-white); color: #333; overflow-x: hidden; }
 
-        /* Navigation */
+        /* FIXED TOP RIGHT NAVIGATION */
         .nav-bar {
-            position: absolute;
+            position: fixed; /* Stays visible while scrolling */
             top: 0; left: 0; width: 100%;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end; /* Pushes links to the right */
             align-items: center;
-            padding: 30px 50px;
+            padding: 25px 50px;
             z-index: 1000;
             box-sizing: border-box;
+            background: rgba(75, 44, 94, 0.2); /* Subtle tint */
+            backdrop-filter: blur(5px); /* Modern glass effect */
         }
         .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: var(--noble-white); text-decoration: none; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { color: var(--gold-accent); }
+        .nav-links a { 
+            color: var(--noble-white); 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            font-size: 0.85rem; 
+            letter-spacing: 2px; 
+            font-weight: 600; 
+            transition: 0.3s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 5px;
+        }
+        .nav-links a:hover { color: var(--gold-accent); border-bottom: 2px solid var(--gold-accent); }
 
-        /* HERO SLIDER LOGIC */
+        /* HERO SLIDER */
         .hero {
             position: relative;
             height: 100vh;
@@ -46,7 +58,7 @@
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+            transition: opacity 1.2s ease-in-out;
             z-index: 1;
         }
 
@@ -57,42 +69,57 @@
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(75, 44, 94, 0.5);
+            background: rgba(0, 0, 0, 0.4); /* Darker overlay for text readability */
             z-index: 2;
         }
 
         .hero-content {
             position: relative;
             z-index: 3;
+            max-width: 90%;
         }
 
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 10vw, 7rem);
-            letter-spacing: 20px;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            letter-spacing: 12px;
             margin: 0;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.5);
             text-transform: uppercase;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            letter-spacing: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            margin-top: 10px;
+            margin-top: 15px;
             color: var(--gold-accent);
+            font-weight: 300;
         }
 
-        .cta-section { padding: 100px 10%; text-align: center; background: var(--soft-gray); }
+        /* MISSION SECTION (The editable part) */
+        .cta-section { padding: 120px 10%; text-align: center; background: var(--noble-white); }
+        .cta-section h2 { font-family: 'Playfair Display'; font-size: 3rem; color: var(--royal-purple); margin-bottom: 20px; }
+        
+        #mission-body { 
+            max-width: 800px; 
+            margin: 0 auto 45px; 
+            line-height: 2; 
+            font-size: 1.25rem; 
+            color: #555;
+            min-height: 50px; 
+        }
+
         .btn-gold { 
             background: var(--gold-accent); color: var(--royal-purple); 
-            padding: 15px 40px; text-decoration: none; font-weight: bold; 
+            padding: 18px 50px; text-decoration: none; font-weight: bold; 
             border-radius: 50px; display: inline-block; transition: 0.3s;
-            text-transform: uppercase; letter-spacing: 1px;
+            text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
-        .btn-gold:hover { transform: scale(1.05); background: var(--noble-white); border: 1px solid var(--gold-accent); }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); background: #eacb6a; }
 
-        footer { background: var(--royal-purple); color: white; padding: 40px; text-align: center; letter-spacing: 2px; }
+        footer { background: var(--royal-purple); color: white; padding: 40px; text-align: center; letter-spacing: 2px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -107,8 +134,6 @@
     </nav>
 
     <section class="hero" id="hero-slider">
-        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=2070');"></div>
-        
         <div class="hero-content">
             <h1 id="hero-title">S.H.A.R.E LOVE</h1>
             <p id="hero-subtitle">Medicine • Mercy • Ministry</p>
@@ -116,10 +141,9 @@
     </section>
 
     <section class="cta-section">
-        <h2 id="mission-title" style="font-family: 'Playfair Display'; font-size: 2.5rem;">Stopping for the One</h2>
-        <p id="mission-body" style="max-width: 700px; margin: 20px auto 40px; line-height: 1.8;">
-            Inspired by a legacy of clinical excellence and radical compassion, we provide medical advocacy to the least of these.
-        </p>
+        <h2 id="mission-title">Ministry Vision</h2>
+        <p id="mission-body">
+            </p>
         <a href="projects.html" class="btn-gold">View Our Projects</a>
     </section>
 
@@ -131,21 +155,23 @@
         let currentSlide = 0;
         let slideInterval;
 
-        // 1. Fetch the Skeleton Text Data
-        async function loadSkeletonText() {
+        // 1. Load Text Content
+        async function loadHomeContent() {
             try {
                 const response = await fetch('_content/home.json');
+                if (!response.ok) throw new Error("No data");
                 const data = await response.json();
                 
                 if(data.hero_title) document.getElementById('hero-title').innerText = data.hero_title;
                 if(data.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.hero_subtitle;
                 if(data.mission) document.getElementById('mission-body').innerText = data.mission;
             } catch (e) {
-                console.log("Using default hard-coded text until CMS data is published.");
+                // Fallback text if JSON is missing
+                document.getElementById('mission-body').innerText = "Establishing clinical excellence and radical compassion.";
             }
         }
 
-        // 2. Fetch the Slider Data
+        // 2. Load Slider Images (REMOVES DEFAULTS)
         async function initSlider() {
             try {
                 const response = await fetch('_content/slider.json');
@@ -153,20 +179,27 @@
                 const hero = document.getElementById('hero-slider');
                 
                 if (data.slides && data.slides.length > 0) {
+                    // Remove any existing backup slides
                     document.querySelectorAll('.slide').forEach(s => s.remove());
+                    
                     data.slides.forEach((slide, index) => {
                         const div = document.createElement('div');
-                        div.className = index === 0 ? 'slide active' : 'slide';
-                        // Fix for CMS image pathing
+                        div.className = (index === 0) ? 'slide active' : 'slide';
+                        
                         const imgPath = slide.image.startsWith('images/') ? slide.image : `images/${slide.image}`;
                         div.style.backgroundImage = `url('${imgPath}')`;
+                        
+                        // Insert at the beginning so they stay behind the text
                         hero.insertBefore(div, hero.firstChild);
                     });
+                    startRotation();
+                } else {
+                    // Fallback slide if none uploaded
+                    hero.innerHTML = `<div class="slide active" style="background:#4b2c5e"></div>` + hero.innerHTML;
                 }
             } catch (e) {
-                console.log("Using default slider images.");
+                console.log("Slider failed to load. Add photos in Admin.");
             }
-            startRotation();
         }
 
         function startRotation() {
@@ -181,9 +214,8 @@
             }, 5000);
         }
 
-        // Load everything when the window opens
         window.onload = () => {
-            loadSkeletonText();
+            loadHomeContent();
             initSlider();
         };
     </script>
