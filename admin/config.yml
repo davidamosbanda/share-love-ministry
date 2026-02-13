@@ -32,6 +32,14 @@ collections:
           - {label: "Sub-headline", name: "hero_subtitle", widget: "string"}
           - {label: "Mission Statement", name: "mission", widget: "text"}
           - {label: "Contact Email", name: "contact_email", widget: "string"}
+            # ADDED: Who We Are Editor
+      - label: "Who We Are Page"
+        name: "about"
+        file: "_content/who-we-are.json"
+        fields:
+          - {label: "Page Title", name: "title", widget: "string"}
+          - {label: "Featured Photo", name: "image", widget: "image"}
+          - {label: "Main Content", name: "body", widget: "text"}
   - name: "projects"
     label: "Projects"
     folder: "_projects"
