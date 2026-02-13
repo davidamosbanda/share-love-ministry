@@ -7,56 +7,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
     <style>
         :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; }
-        body { font-family: 'Inter', sans-serif; margin: 0; }
-        header { background: var(--royal-purple); color: white; padding: 80px 50px; text-align: center; }
-        .content { max-width: 900px; margin: 80px auto; padding: 0 20px; font-size: 1.2rem; line-height: 2; color: #444; }
-        .nav-back { text-decoration: none; color: var(--gold-accent); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
-        
-        /* Loading state to prevent text jump */
-        .loading { opacity: 0.3; }
-        img.featured-photo { width: 100%; border-radius: 8px; margin-bottom: 30px; display: none; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: #fff; }
+        header { background: var(--royal-purple); color: white; padding: 80px 50px; text-align: center; border-bottom: 5px solid var(--gold-accent); }
+        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; font-size: 1.15rem; line-height: 1.8; color: #333; }
+        .nav-back { text-decoration: none; color: var(--gold-accent); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
+        img.featured-photo { width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 40px; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { margin: 20px 0 0; letter-spacing: 2px; }
+        #body-text p { margin-bottom: 25px; }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="nav-back">← Home</a>
-        <h1 id="page-title" style="font-family: 'Playfair Display'; font-size: 3.5rem;">Who We Are</h1>
+        <a href="index.html" class="nav-back">← Back to Home</a>
+        <h1 id="page-title" style="font-family: 'Playfair Display'; font-size: clamp(2.5rem, 8vw, 3.5rem);">Who We Are</h1>
     </header>
 
     <div class="content" id="page-content">
         <img id="featured-image" class="featured-photo" src="" alt="Ministry Photo">
-        
         <div id="body-text">
-            <p>S.H.A.R.E L.O.V.E is a clinical ministry dedicated to providing medical advocacy for the underserved...</p>
+            <p>Loading our story...</p>
         </div>
     </div>
 
     <script>
         async function loadAboutPage() {
             try {
-                // This matches the 'file' location in your admin/config.yml
-                const response = await fetch('/_content/who-we-are.json');
+                // Fetch the specific JSON file for this page
+                const response = await fetch('_content/who-we-are.json');
                 const data = await response.json();
 
                 if (data) {
-                    // 1. Update the Heading
                     if (data.title) document.getElementById('page-title').innerText = data.title;
                     
-                    // 2. Update the Body Text (supports Markdown/HTML from the CMS)
-                    if (data.body) document.getElementById('body-text').innerHTML = data.body;
+                    // Update Body Text
+                    if (data.body) {
+                        document.getElementById('body-text').innerHTML = data.body.replace(/\n/g, '<br>');
+                    }
 
-                    // 3. Update the Photo if she uploaded one
+                    // Photo Fix: Handle the 'images/' prefix
                     if (data.image) {
                         const img = document.getElementById('featured-image');
-                        img.src = data.image;
+                        const imgPath = data.image.startsWith('images/') ? data.image : `images/${data.image}`;
+                        img.src = imgPath;
                         img.style.display = 'block';
                     }
                 }
             } catch (error) {
-                console.log("No custom content found. Showing default text.");
+                console.log("Showing default content.");
+                document.getElementById('body-text').innerHTML = `<p>S.H.A.R.E L.O.V.E is a clinical ministry dedicated to providing medical advocacy for the underserved...</p>`;
             }
         }
-
         window.onload = loadAboutPage;
     </script>
 </body>
