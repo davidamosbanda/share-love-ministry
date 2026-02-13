@@ -1,4 +1,4 @@
-# 1. Connection to DecapBridge (KEEPING YOUR EXACT IDs)
+# 1. Connection to DecapBridge
 backend:
   name: git-gateway
   repo: davidamosbanda/share-love-ministry
@@ -8,22 +8,15 @@ backend:
   auth_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/pkce
   auth_token_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/token
   gateway_url: https://gateway.decapbridge.com
-  commit_messages:
-    create: "Create {{collection}} {{slug}} via DecapBridge"
-    update: "Update {{collection}} {{slug}} via DecapBridge"
-    delete: "Delete {{collection}} {{slug}} via DecapBridge"
-    uploadMedia: "Upload {{path}} via DecapBridge"
-    deleteMedia: "Delete {{path}} via DecapBridge"
-# 2. UI and Logo Settings
-logo_url: https://decapbridge.com/decapcms-with-bridge.svg
-site_url: https://davidamosbanda.github.io/share-love-ministry/
-# 3. Media Storage
+# 2. Kill Preview globally in the config
+show_preview_links: false
+editor:
+  preview: false
+# 3. Media Settings (Fixed for GitHub Pages pathing)
 media_folder: "images"
-public_folder: "/images"
-
-# 4. The Skeleton (Everything is editable now)
+public_folder: "images" 
+# 4. Collections
 collections:
-  # FIX: Adding a "Global Text" section so you can edit the whole site
   - name: "pages"
     label: "Website Text (Skeleton)"
     files:
@@ -46,12 +39,10 @@ collections:
       - {label: "Project Title", name: "title", widget: "string"}
       - {label: "Status", name: "status", widget: "select", options: ["Past", "Ongoing", "Upcoming"]}
       - {label: "Short Summary", name: "summary", widget: "text"}
-      # FIX: Simplified Markdown to get rid of the overlapping lines/boxes
-      - {label: "Full Description", name: "body", widget: "markdown", minimal: true, buttons: ["bold", "italic", "link", "bulleted-list"]}
+      - {label: "Full Description", name: "body", widget: "text"} # Use simple text to avoid line bugs
       - {label: "Project Photo", name: "image", widget: "image"}
   - name: "homepage"
     label: "Home Page Slider"
-    delete: false
     files:
       - label: "Slider Images"
         name: "slider"
@@ -62,4 +53,4 @@ collections:
             widget: "list"
             fields:
               - {label: "Upload Photo", name: "image", widget: "image"}
-              - {label: "Photo Description", name: "alt", widget: "string", required: false}
+              - {label: "Description", name: "alt", widget: "string", required: false}
