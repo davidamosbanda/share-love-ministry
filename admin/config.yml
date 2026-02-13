@@ -8,22 +8,20 @@ backend:
   auth_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/pkce
   auth_token_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/token
   gateway_url: https://gateway.decapbridge.com
-  publish_mode: simple
+publish_mode: simple # Kills the 'Editorial Workflow' tab madness
 # 2. Kill the Madness (UI CLEANUP)
 show_preview_links: false
 display_url: https://davidamosbanda.github.io/share-love-ministry/
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
-# Disables the horizontal preview pane and duplicate bars globally
 editor:
   preview: false
-# 3. Media Settings (FIXED PATHS)
+# 3. Media Settings
 media_folder: "images"
 public_folder: "images" 
-# 4. Collections (SKELETON LINKED)
+# 4. Collections
 collections:
   - name: "pages"
-    label: "Website Text (Skeleton)"
-    publish: false 
+    label: "Website Text"
     files:
       - label: "Home Page Content"
         name: "home"
@@ -32,8 +30,10 @@ collections:
           - {label: "Main Headline", name: "hero_title", widget: "string"}
           - {label: "Sub-headline", name: "hero_subtitle", widget: "string"}
           - {label: "Mission Statement", name: "mission", widget: "text"}
-          - {label: "Contact Email", name: "contact_email", widget: "string"}
-            # ADDED: Who We Are Editor
+          - {label: "Contact Email (Hidden)", name: "contact_email", widget: "string"}
+          - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+          - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+
       - label: "Who We Are Page"
         name: "about"
         file: "_content/who-we-are.json"
@@ -47,7 +47,6 @@ collections:
     extension: "json"
     format: "json"
     create: true
-    publish: false 
     slug: "{{slug}}"
     fields:
       - {label: "Project Title", name: "title", widget: "string"}
@@ -61,15 +60,13 @@ collections:
     extension: "json"
     format: "json"
     create: true
-    publish: false
     slug: "{{title}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Upload Photo", name: "image", widget: "image", required: false}
-      - {label: "OR YouTube Link", name: "video_url", widget: "string", required: false, hint: "Paste full YouTube URL here"}
+      - {label: "OR YouTube Link", name: "video_url", widget: "string", required: false}
   - name: "homepage"
     label: "Home Page Slider"
-    publish: false
     files:
       - label: "Slider Images"
         name: "slider"
