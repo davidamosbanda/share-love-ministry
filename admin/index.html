@@ -4,56 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | S.H.A.R.E LOVE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: #f8f9fa; }
-        
-        header { 
-            background: var(--royal-purple); 
-            color: #fff; 
-            padding: 20px; 
-            text-align: center;
-            border-bottom: 5px solid var(--gold-accent);
-        }
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; text-transform: uppercase; letter-spacing: 4px; }
-
-        /* --- THE ULTIMATE KILL SWITCH FOR THE HORIZONTAL/SIDE PANE --- */
-        /* This targets the internal classes Decap uses for the split screen */
-        
-        div[class^="Pane2"] { 
-            display: none !important; 
-            width: 0px !important; 
-            flex: 0 0 0px !important; 
-        }
-
-        div[class^="Pane1"] { 
-            width: 100% !important; 
-            flex: 1 1 100% !important; 
-            max-width: 100% !important;
-        }
-
-        .nc-entryEditor-previewPane { 
-            display: none !important; 
-        }
-
-        .nc-entryEditor-controlPane { 
-            grid-column: span 2 !important; 
-            width: 100% !important; 
-        }
-
-        /* Specifically kills the split-view dragger line */
-        .Resizer.vertical, .Resizer.horizontal { 
-            display: none !important; 
-        }
+        /* Hide everything until the script can clean it up */
+        .nc-entryEditor-previewPane, .Resizer { display: none !important; width: 0 !important; visibility: hidden !important; }
+        .nc-entryEditor-controlPane { width: 100% !important; max-width: 100% !important; flex: 1 1 100% !important; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>S.H.A.R.E LOVE</h1>
-    </header>
-
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+        // 1. Tell Decap to stop rendering templates
+        const kill = () => null;
+        CMS.registerPreviewTemplate("projects", kill);
+        CMS.registerPreviewTemplate("pages", kill);
+        CMS.registerPreviewTemplate("homepage", kill);
+        CMS.registerPreviewTemplate("media", kill);
 
-   </body>
+        // 2. THE DOM MURDER SCRIPT
+        // This scans the page every 100ms and deletes the "little shits"
+        setInterval(() => {
+            // Find the resizer line (the vertical/horizontal bar)
+            const resizers = document.querySelectorAll('.Resizer');
+            resizers.forEach(el => el.remove());
+
+            // Find the Preview Pane (Pane 2)
+            const previewPanes = document.querySelectorAll('[class*="Pane2"]');
+            previewPanes.forEach(el => {
+                el.style.display = 'none';
+                el.style.width = '0px';
+            });
+
+            // Find the Control Pane (the form) and force it to be 100%
+            const controlPanes = document.querySelectorAll('[class*="Pane1"]');
+            controlPanes.forEach(el => {
+                el.style.width = '100%';
+                el.style.flex = '1 1 100%';
+                el.style.maxWidth = '100%';
+            });
+        }, 100);
+    </script>
+</body>
 </html>
