@@ -11,20 +11,26 @@
         header { 
             background: var(--royal-purple); 
             color: #fff; 
-            padding: 40px 20px; 
+            padding: 20px; 
             text-align: center;
             border-bottom: 5px solid var(--gold-accent);
         }
-        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 0; text-transform: uppercase; letter-spacing: 4px; }
-        .admin-status { color: var(--gold-accent); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; text-transform: uppercase; letter-spacing: 4px; }
+        /* This hides the preview pane area if the script below doesn't catch it */
+        #nc-root .nc-entryEditor-controlPane { width: 100% !important; }
+        #nc-root .nc-entryEditor-previewPane { display: none !important; }
     </style>
 </head>
 <body>
     <header>
         <h1>S.H.A.R.E LOVE</h1>
-        <div class="admin-status">Management Portal</div>
     </header>
-
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+        <script>
+        // KILL THE MADNESS: This stops the CMS from even trying to render a preview
+        CMS.registerPreviewTemplate("projects", () => null);
+        CMS.registerPreviewTemplate("pages", () => null);
+        CMS.registerPreviewTemplate("homepage", () => null);
+    </script>
 </body>
 </html>
