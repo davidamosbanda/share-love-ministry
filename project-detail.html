@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | S.H.A.R.E LOVE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: #fff; color: #333; line-height: 1.8; }
+        
+        header { background: var(--royal-purple); color: white; padding: 40px; text-align: center; border-bottom: 5px solid var(--gold-accent); }
+        .nav-back { text-decoration: none; color: var(--gold-accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+        
+        .container { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        
+        #project-image { width: 100%; max-height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 40px; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--royal-purple); margin-bottom: 10px; }
+        .status-tag { display: inline-block; background: var(--gold-accent); color: var(--royal-purple); padding: 5px 15px; border-radius: 50px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 30px; }
+        
+        #project-body { font-size: 1.2rem; color: #444; white-space: pre-wrap; }
+        
+        .loading-msg { text-align: center; font-size: 1.5rem; margin-top: 100px; color: #ccc; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="projects.html" class="nav-back">← Back to Projects</a>
+        <h1 id="project-title">Loading...</h1>
+    </header>
+
+    <div class="container">
+        <img id="project-image" src="" alt="">
+        <div id="status-container"></div>
+        <div id="project-body">
+            <p class="loading-msg">Fetching the kingdom story...</p>
+        </div>
+    </div>
+
+    <script>
+        async function loadProjectDetail() {
+            // 1. Get the Title from the URL (e.g., ?title=Medical%20Mission)
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectTitle = urlParams.get('title');
+
+            if (!projectTitle) {
+                window.location.href = 'projects.html';
+                return;
+            }
+
+            try {
+                // 2. Look into the _projects folder on GitHub
+                const repo = "davidamosbanda/share-love-ministry";
+                const response = await fetch(`https://api.github.com/repos/${repo}/contents/_projects`);
+                const files = await response.json();
+
+                // 3. Find the JSON file that matches the title
+                for (const file of files) {
+                    if (file.name.endsWith('.json')) {
+                        const contentRes = await fetch(file.download_url);
+                        const project = await contentRes.json();
+
+                        if (project.title === projectTitle) {
+                            // 4. Fill the page with data
+                            document.getElementById('project-title').innerText = project.title;
+                            document.title = `${project.title} | S.H.A.R.E LOVE`;
+                            
+                            if (project.status) {
+                                document.getElementById('status-container').innerHTML = `<span class="status-tag">${project.status}</span>`;
+                            }
+
+                            if (project.body) {
+                                document.getElementById('project-body').innerText = project.body;
+                            }
+
+                            if (project.image) {
+                                const img = document.getElementById('project-image');
+                                const imgPath = project.image.startsWith('images/') ? project.image : `images/${project.image}`;
+                                img.src = imgPath;
+                                img.style.display = 'block';
+                            }
+                            return;
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Detail load error:", e);
+                document.getElementById('project-body').innerHTML = "<h3>Error loading project story.</h3>";
+            }
+        }
+
+        window.onload = loadProjectDetail;
+    </script>
+</body>
+</html>
