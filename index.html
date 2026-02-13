@@ -11,16 +11,17 @@
 
         /* FIXED TOP RIGHT NAVIGATION */
         .nav-bar {
-            position: fixed; /* Stays visible while scrolling */
+            position: fixed;
             top: 0; left: 0; width: 100%;
             display: flex;
-            justify-content: flex-end; /* Pushes links to the right */
+            justify-content: flex-end;
             align-items: center;
             padding: 25px 50px;
             z-index: 1000;
             box-sizing: border-box;
-            background: rgba(75, 44, 94, 0.2); /* Subtle tint */
-            backdrop-filter: blur(5px); /* Modern glass effect */
+            background: rgba(75, 44, 94, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
         .nav-links { display: flex; gap: 30px; }
         .nav-links a { 
@@ -48,7 +49,7 @@
             color: var(--noble-white);
             text-align: center;
             overflow: hidden;
-            background: var(--royal-purple);
+            background: var(--royal-purple); /* Background shows if no images load */
         }
 
         .slide {
@@ -58,7 +59,7 @@
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 1.2s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
             z-index: 1;
         }
 
@@ -69,7 +70,7 @@
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* Darker overlay for text readability */
+            background: rgba(0, 0, 0, 0.3);
             z-index: 2;
         }
 
@@ -84,7 +85,6 @@
             font-size: clamp(2.5rem, 8vw, 6rem);
             letter-spacing: 12px;
             margin: 0;
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.5);
             text-transform: uppercase;
         }
 
@@ -94,10 +94,9 @@
             text-transform: uppercase;
             margin-top: 15px;
             color: var(--gold-accent);
-            font-weight: 300;
         }
 
-        /* MISSION SECTION (The editable part) */
+        /* MISSION SECTION - COMPLETELY FLUID */
         .cta-section { padding: 120px 10%; text-align: center; background: var(--noble-white); }
         .cta-section h2 { font-family: 'Playfair Display'; font-size: 3rem; color: var(--royal-purple); margin-bottom: 20px; }
         
@@ -105,9 +104,8 @@
             max-width: 800px; 
             margin: 0 auto 45px; 
             line-height: 2; 
-            font-size: 1.25rem; 
-            color: #555;
-            min-height: 50px; 
+            font-size: 1.3rem; 
+            color: #444;
         }
 
         .btn-gold { 
@@ -115,11 +113,10 @@
             padding: 18px 50px; text-decoration: none; font-weight: bold; 
             border-radius: 50px; display: inline-block; transition: 0.3s;
             text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); background: #eacb6a; }
+        .btn-gold:hover { transform: translateY(-3px); background: #eacb6a; }
 
-        footer { background: var(--royal-purple); color: white; padding: 40px; text-align: center; letter-spacing: 2px; font-size: 0.8rem; }
+        footer { background: var(--royal-purple); color: white; padding: 40px; text-align: center; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -135,16 +132,11 @@
 
     <section class="hero" id="hero-slider">
         <div class="hero-content">
-            <h1 id="hero-title">S.H.A.R.E LOVE</h1>
-            <p id="hero-subtitle">Medicine • Mercy • Ministry</p>
-        </div>
+            <h1 id="hero-title"></h1> <p id="hero-subtitle"></p> </div>
     </section>
 
     <section class="cta-section">
-        <h2 id="mission-title">Ministry Vision</h2>
-        <p id="mission-body">
-            </p>
-        <a href="projects.html" class="btn-gold">View Our Projects</a>
+        <h2 id="mission-title"></h2> <p id="mission-body"></p> <a href="projects.html" class="btn-gold">View Our Projects</a>
     </section>
 
     <footer>
@@ -155,50 +147,50 @@
         let currentSlide = 0;
         let slideInterval;
 
-        // 1. Load Text Content
+        // 1. DYNAMIC TEXT LOADER (No static backups)
         async function loadHomeContent() {
             try {
-                const response = await fetch('_content/home.json');
-                if (!response.ok) throw new Error("No data");
+                // Fetch with cache-buster to ensure admin changes show immediately
+                const response = await fetch('_content/home.json?t=' + Date.now());
                 const data = await response.json();
                 
                 if(data.hero_title) document.getElementById('hero-title').innerText = data.hero_title;
                 if(data.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.hero_subtitle;
+                if(data.hero_title) document.getElementById('mission-title').innerText = data.hero_title; // Links title to mission header
                 if(data.mission) document.getElementById('mission-body').innerText = data.mission;
             } catch (e) {
-                // Fallback text if JSON is missing
-                document.getElementById('mission-body').innerText = "Establishing clinical excellence and radical compassion.";
+                console.log("Waiting for CMS data...");
             }
         }
 
-        // 2. Load Slider Images (REMOVES DEFAULTS)
+        // 2. CACHE-BUSTING SLIDER LOADER
         async function initSlider() {
             try {
-                const response = await fetch('_content/slider.json');
+                const response = await fetch('_content/slider.json?t=' + Date.now());
                 const data = await response.json();
                 const hero = document.getElementById('hero-slider');
                 
                 if (data.slides && data.slides.length > 0) {
-                    // Remove any existing backup slides
+                    // Wipe all old slides immediately
                     document.querySelectorAll('.slide').forEach(s => s.remove());
                     
                     data.slides.forEach((slide, index) => {
                         const div = document.createElement('div');
                         div.className = (index === 0) ? 'slide active' : 'slide';
                         
-                        const imgPath = slide.image.startsWith('images/') ? slide.image : `images/${slide.image}`;
-                        div.style.backgroundImage = `url('${imgPath}')`;
+                        // Handle all image path variations (images/ folder)
+                        let imgPath = slide.image;
+                        if (!imgPath.startsWith('http') && !imgPath.startsWith('images/')) {
+                            imgPath = 'images/' + imgPath;
+                        }
                         
-                        // Insert at the beginning so they stay behind the text
+                        div.style.backgroundImage = `url('${imgPath}')`;
                         hero.insertBefore(div, hero.firstChild);
                     });
                     startRotation();
-                } else {
-                    // Fallback slide if none uploaded
-                    hero.innerHTML = `<div class="slide active" style="background:#4b2c5e"></div>` + hero.innerHTML;
                 }
             } catch (e) {
-                console.log("Slider failed to load. Add photos in Admin.");
+                console.log("Add slider photos in Admin to replace purple background.");
             }
         }
 
