@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root { --royal-purple: #4b2c5e; --noble-white: #ffffff; --gold-accent: #d4af37; --soft-gray: #f8f9fa; }
@@ -108,49 +108,63 @@
 
     <section class="hero" id="hero-slider">
         <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=2070');"></div>
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070');"></div>
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070');"></div>
-
+        
         <div class="hero-content">
-            <h1>S.H.A.R.E LOVE</h1>
-            <p>Medicine • Mercy • Ministry</p>
+            <h1 id="hero-title">S.H.A.R.E LOVE</h1>
+            <p id="hero-subtitle">Medicine • Mercy • Ministry</p>
         </div>
     </section>
 
     <section class="cta-section">
-        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem;">Stopping for the One</h2>
-        <p style="max-width: 700px; margin: 20px auto 40px; line-height: 1.8;">Inspired by a legacy of clinical excellence and radical compassion, we provide medical advocacy to the least of these.</p>
+        <h2 id="mission-title" style="font-family: 'Playfair Display'; font-size: 2.5rem;">Stopping for the One</h2>
+        <p id="mission-body" style="max-width: 700px; margin: 20px auto 40px; line-height: 1.8;">
+            Inspired by a legacy of clinical excellence and radical compassion, we provide medical advocacy to the least of these.
+        </p>
         <a href="projects.html" class="btn-gold">View Our Projects</a>
     </section>
 
     <footer>
-        <p>&copy; 2026 S.H.A.R.E L.O.V.E MINISTRY</p>
+        <p id="footer-text">&copy; 2026 S.H.A.R.E L.O.V.E MINISTRY</p>
     </footer>
 
     <script>
         let currentSlide = 0;
         let slideInterval;
 
+        // 1. Fetch the Skeleton Text Data
+        async function loadSkeletonText() {
+            try {
+                const response = await fetch('_content/home.json');
+                const data = await response.json();
+                
+                if(data.hero_title) document.getElementById('hero-title').innerText = data.hero_title;
+                if(data.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.hero_subtitle;
+                if(data.mission) document.getElementById('mission-body').innerText = data.mission;
+            } catch (e) {
+                console.log("Using default hard-coded text until CMS data is published.");
+            }
+        }
+
+        // 2. Fetch the Slider Data
         async function initSlider() {
             try {
-                // Fetch photos she uploaded in the Admin Panel
-                const response = await fetch('/_content/slider.json');
+                const response = await fetch('_content/slider.json');
                 const data = await response.json();
                 const hero = document.getElementById('hero-slider');
                 
                 if (data.slides && data.slides.length > 0) {
-                    // Wipe the default static slides to use her custom ones
                     document.querySelectorAll('.slide').forEach(s => s.remove());
-
                     data.slides.forEach((slide, index) => {
                         const div = document.createElement('div');
                         div.className = index === 0 ? 'slide active' : 'slide';
-                        div.style.backgroundImage = `url('${slide.image}')`;
+                        // Fix for CMS image pathing
+                        const imgPath = slide.image.startsWith('images/') ? slide.image : `images/${slide.image}`;
+                        div.style.backgroundImage = `url('${imgPath}')`;
                         hero.insertBefore(div, hero.firstChild);
                     });
                 }
             } catch (e) {
-                console.log("No custom admin images found yet. Using defaults.");
+                console.log("Using default slider images.");
             }
             startRotation();
         }
@@ -167,10 +181,11 @@
             }, 5000);
         }
 
-        window.onload = initSlider;
+        // Load everything when the window opens
+        window.onload = () => {
+            loadSkeletonText();
+            initSlider();
+        };
     </script>
-
 </body>
-
 </html>
-
