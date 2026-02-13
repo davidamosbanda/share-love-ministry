@@ -55,16 +55,5 @@
 
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
-    <script>
-        // Tell the logic there is nothing to show
-        const kill = () => null;
-        CMS.registerPreviewTemplate("projects", kill);
-        CMS.registerPreviewTemplate("pages", kill);
-        CMS.registerPreviewTemplate("homepage", kill);
-        CMS.registerPreviewTemplate("media", kill);
-
-        // This is the nuclear option: injecting CSS directly into the CMS frame
-        CMS.registerPreviewStyle(`body { display: none !important; }`);
-    </script>
-</body>
+   </body>
 </html>
