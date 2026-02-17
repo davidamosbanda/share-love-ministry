@@ -8,16 +8,20 @@ backend:
   auth_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/pkce
   auth_token_endpoint: /sites/3ccc5e3e-fa7b-4c34-a091-9a0dddd50ece/token
   gateway_url: https://gateway.decapbridge.com
-publish_mode: simple # Kills the 'Editorial Workflow' tab madness
-# 2. Kill the Madness (UI CLEANUP)
+
+publish_mode: simple 
+
+# 2. UI CLEANUP
 show_preview_links: false
 display_url: https://davidamosbanda.github.io/share-love-ministry/
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
 editor:
   preview: false
-# 3. Media Settings
+
+# 3. Media Settings (CRITICAL: Changed to relative for GitHub Pages)
 media_folder: "images"
 public_folder: "images" 
+
 # 4. Collections
 collections:
   - name: "pages"
@@ -34,6 +38,17 @@ collections:
           - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
           - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
 
+      - label: "Home Page Slider"
+        name: "slider"
+        file: "_content/slider.json"
+        fields:
+          - label: "Photos"
+            name: "slides"
+            widget: "list"
+            fields:
+              - {label: "Upload Photo", name: "image", widget: "image"}
+              - {label: "Description", name: "alt", widget: "string", required: false}
+
       - label: "Who We Are Page"
         name: "about"
         file: "_content/who-we-are.json"
@@ -41,6 +56,7 @@ collections:
           - {label: "Page Title", name: "title", widget: "string"}
           - {label: "Featured Photo", name: "image", widget: "image"}
           - {label: "Main Content", name: "body", widget: "text"}
+
   - name: "projects"
     label: "Projects"
     folder: "_projects"
@@ -54,6 +70,7 @@ collections:
       - {label: "Short Summary", name: "summary", widget: "text"}
       - {label: "Full Description", name: "body", widget: "text"} 
       - {label: "Project Photo", name: "image", widget: "image"}
+
   - name: "media"
     label: "Media Gallery"
     folder: "_media"
@@ -65,16 +82,3 @@ collections:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Upload Photo", name: "image", widget: "image", required: false}
       - {label: "OR YouTube Link", name: "video_url", widget: "string", required: false}
-  - name: "homepage"
-    label: "Home Page Slider"
-    files:
-      - label: "Slider Images"
-        name: "slider"
-        file: "_content/slider.json"
-        fields:
-          - label: "Photos"
-            name: "slides"
-            widget: "list"
-            fields:
-              - {label: "Upload Photo", name: "image", widget: "image"}
-              - {label: "Description", name: "alt", widget: "string", required: false}
