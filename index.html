@@ -97,7 +97,7 @@
         #mission-body { 
             max-width: 850px; margin: 0 auto 60px; line-height: 2.2; 
             font-size: 1.4rem; color: #444; font-weight: 300; 
-            font-style: italic;
+            white-space: pre-wrap;
         }
         .btn-action {
             background: var(--royal-purple); color: var(--gold-accent); 
@@ -144,7 +144,7 @@
     <section class="cta-section">
         <span class="section-label">Divine Purpose</span>
         <h2 id="mission-title">Our Mission</h2>
-        <p id="mission-body"></p>
+        <div id="mission-body"></div>
         <a href="projects.html" class="btn-action">EXPLORE OUR PROJECTS</a>
     </section>
 
@@ -161,7 +161,6 @@
     <script>
         const repoPath = 'https://davidamosbanda.github.io/share-love-ministry/';
 
-        // Visual scroll logic
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 100) nav.classList.add('scrolled');
@@ -171,14 +170,14 @@
         async function init() {
             const cacheBust = `?t=${Date.now()}`;
             
-            // 1. CONTENT HANDSHAKE
+            // 1. DATA PULL (Text and Mission)
             try {
                 const res = await fetch(`${repoPath}_content/home.json${cacheBust}`);
                 if (res.ok) {
                     const data = await res.json();
-                    if(data.hero_title) document.getElementById('hero-title').innerText = data.hero_title;
-                    if(data.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.hero_subtitle;
-                    if(data.mission) document.getElementById('mission-body').innerText = data.mission;
+                    document.getElementById('hero-title').innerText = data.hero_title || "S.H.A.R.E LOVE GLOBAL";
+                    document.getElementById('hero-subtitle').innerText = data.hero_subtitle || "MINISTRY OF COMPASSION";
+                    document.getElementById('mission-body').innerText = data.mission || "";
                     
                     if(data.contact_email) {
                         const c = document.getElementById('contact-link');
@@ -189,10 +188,14 @@
                         const fb = document.getElementById('fb-link');
                         fb.href = data.facebook; fb.style.display = 'inline-block';
                     }
+                    if(data.instagram) {
+                        const ig = document.getElementById('ig-link');
+                        ig.href = data.instagram; ig.style.display = 'inline-block';
+                    }
                 }
-            } catch(e) { console.warn("Using default text values."); }
+            } catch(e) { console.error("Text load failed."); }
 
-            // 2. SLIDER HANDSHAKE
+            // 2. IMAGE PULL (The "No Show" Fix)
             try {
                 const res = await fetch(`${repoPath}_content/slider.json${cacheBust}`);
                 if (res.ok) {
@@ -200,16 +203,16 @@
                     const hero = document.getElementById('hero-slider');
 
                     if(data.slides && data.slides.length > 0) {
-                        // Kill the static background
+                        // Wipe purple slides
                         document.querySelectorAll('.slide').forEach(s => s.remove());
                         
                         data.slides.forEach((slide, i) => {
                             const div = document.createElement('div');
                             div.className = i === 0 ? 'slide active' : 'slide';
                             
-                            // Advanced Pathing: Strip "images/" if doubled, force repo root
-                            let rawPath = slide.image.replace(/^images\//, '').replace(/^\//, '');
-                            let finalUrl = `${repoPath}images/${rawPath}`;
+                            // THE FIX: Grab ONLY the filename from the path and force repo/images/
+                            let imgName = slide.image.split('/').pop(); 
+                            let finalUrl = `${repoPath}images/${imgName}`;
 
                             div.style.backgroundImage = `url('${finalUrl}')`;
                             hero.insertBefore(div, hero.firstChild);
@@ -226,9 +229,8 @@
                         }
                     }
                 }
-            } catch(e) { console.warn("Slider not found."); }
+            } catch(e) { console.error("Slider load failed."); }
         }
-
         window.onload = init;
     </script>
 </body>
