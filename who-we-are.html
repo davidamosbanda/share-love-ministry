@@ -3,61 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Who We Are | S.H.A.R.E L.O.V.E</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <title>Who We Are | S.H.A.R.E LOVE GLOBAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: #fff; }
-        header { background: var(--royal-purple); color: white; padding: 80px 50px; text-align: center; border-bottom: 5px solid var(--gold-accent); }
-        .content { max-width: 900px; margin: 60px auto; padding: 0 20px; font-size: 1.15rem; line-height: 1.8; color: #333; }
-        .nav-back { text-decoration: none; color: var(--gold-accent); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
-        img.featured-photo { width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 40px; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h1 { margin: 20px 0 0; letter-spacing: 2px; }
-        #body-text p { margin-bottom: 25px; }
+        :root { --royal-purple: #4b2c5e; --noble-white: #ffffff; --gold-accent: #d4af37; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: #fcfcfc; color: #333; line-height: 1.8; }
+        .nav-bar { background: var(--royal-purple); padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-bar a { color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; margin-left: 20px; }
+        .header { background: var(--royal-purple); color: var(--gold-accent); padding: 80px 20px; text-align: center; }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
+        .container { max-width: 900px; margin: -40px auto 100px; background: white; padding: 60px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); border-radius: 12px; }
+        #about-body { font-size: 1.2rem; color: #444; white-space: pre-wrap; }
+        #about-img { width: 100%; border-radius: 8px; margin-top: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="nav-back">← Back to Home</a>
-        <h1 id="page-title" style="font-family: 'Playfair Display'; font-size: clamp(2.5rem, 8vw, 3.5rem);">Who We Are</h1>
-    </header>
-
-    <div class="content" id="page-content">
-        <img id="featured-image" class="featured-photo" src="" alt="Ministry Photo">
-        <div id="body-text">
-            <p>Loading our story...</p>
-        </div>
+    <nav class="nav-bar">
+        <a href="index.html" style="font-family:'Playfair Display'; font-size: 1.5rem; color: var(--gold-accent); margin: 0;">S.H.A.R.E</a>
+        <div><a href="index.html">Home</a><a href="who-we-are.html">About</a><a href="media.html">Gallery</a><a href="projects.html">Projects</a></div>
+    </nav>
+    <div class="header"><h1 id="about-title">Who We Are</h1></div>
+    <div class="container">
+        <div id="about-body">Loading our story...</div>
+        <img id="about-img" src="" style="display:none;">
     </div>
-
     <script>
-        async function loadAboutPage() {
+        const repoPath = 'https://davidamosbanda.github.io/share-love-ministry/';
+        async function load() {
             try {
-                // Fetch the specific JSON file for this page
-                const response = await fetch('_content/who-we-are.json');
-                const data = await response.json();
-
-                if (data) {
-                    if (data.title) document.getElementById('page-title').innerText = data.title;
-                    
-                    // Update Body Text
-                    if (data.body) {
-                        document.getElementById('body-text').innerHTML = data.body.replace(/\n/g, '<br>');
-                    }
-
-                    // Photo Fix: Handle the 'images/' prefix
-                    if (data.image) {
-                        const img = document.getElementById('featured-image');
-                        const imgPath = data.image.startsWith('images/') ? data.image : `images/${data.image}`;
-                        img.src = imgPath;
-                        img.style.display = 'block';
-                    }
+                // MATCHES YOUR CONFIG: _content/who-we-are.json
+                const res = await fetch(`${repoPath}_content/who-we-are.json?t=${Date.now()}`);
+                const data = await res.json();
+                document.getElementById('about-title').innerText = data.title || "Who We Are";
+                document.getElementById('about-body').innerText = data.body || "";
+                if(data.image) {
+                    let name = data.image.split('/').pop();
+                    const img = document.getElementById('about-img');
+                    img.src = `${repoPath}images/${name}`;
+                    img.style.display = 'block';
                 }
-            } catch (error) {
-                console.log("Showing default content.");
-                document.getElementById('body-text').innerHTML = `<p>S.H.A.R.E L.O.V.E is a clinical ministry dedicated to providing medical advocacy for the underserved...</p>`;
-            }
+            } catch(e) { console.error("About fail"); }
         }
-        window.onload = loadAboutPage;
+        window.onload = load;
     </script>
 </body>
 </html>
