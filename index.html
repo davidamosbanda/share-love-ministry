@@ -170,7 +170,7 @@
         async function init() {
             const cacheBust = `?t=${Date.now()}`;
             
-            // 1. DATA PULL (Text and Mission)
+            // 1. DATA PULL (Home Content)
             try {
                 const res = await fetch(`${repoPath}_content/home.json${cacheBust}`);
                 if (res.ok) {
@@ -195,7 +195,7 @@
                 }
             } catch(e) { console.error("Text load failed."); }
 
-            // 2. IMAGE PULL (The "No Show" Fix)
+            // 2. IMAGE PULL (Slider)
             try {
                 const res = await fetch(`${repoPath}_content/slider.json${cacheBust}`);
                 if (res.ok) {
@@ -203,14 +203,13 @@
                     const hero = document.getElementById('hero-slider');
 
                     if(data.slides && data.slides.length > 0) {
-                        // Wipe purple slides
                         document.querySelectorAll('.slide').forEach(s => s.remove());
                         
                         data.slides.forEach((slide, i) => {
                             const div = document.createElement('div');
                             div.className = i === 0 ? 'slide active' : 'slide';
                             
-                            // THE FIX: Grab ONLY the filename from the path and force repo/images/
+                            // Advanced Pathing: Strip folders and force repo images root
                             let imgName = slide.image.split('/').pop(); 
                             let finalUrl = `${repoPath}images/${imgName}`;
 
