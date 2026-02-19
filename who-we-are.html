@@ -5,46 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who We Are | S.H.A.R.E LOVE GLOBAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --royal-purple: #4b2c5e; --noble-white: #ffffff; --gold-accent: #d4af37; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: #fcfcfc; color: #333; line-height: 1.8; }
-        .nav-bar { background: var(--royal-purple); padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; }
-        .nav-bar a { color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; margin-left: 20px; }
-        .header { background: var(--royal-purple); color: var(--gold-accent); padding: 80px 20px; text-align: center; }
-        .header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
-        .container { max-width: 900px; margin: -40px auto 100px; background: white; padding: 60px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); border-radius: 12px; }
-        #about-body { font-size: 1.2rem; color: #444; white-space: pre-wrap; }
-        #about-img { width: 100%; border-radius: 8px; margin-top: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        :root { 
+            --royal-purple: #4b2c5e; 
+            --noble-white: #ffffff; 
+            --gold-accent: #d4af37; 
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            background: #f9f9f9; 
+            color: #333; 
+            line-height: 1.8;
+        }
+
+        /* --- NAV --- */
+        .nav-bar {
+            background: var(--royal-purple);
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .logo-text { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--gold-accent); 
+            font-size: 1.5rem; 
+            text-decoration: none; 
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .nav-links a { 
+            color: white; 
+            text-decoration: none; 
+            margin-left: 30px; 
+            text-transform: uppercase; 
+            font-size: 0.8rem; 
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* --- CONTENT AREA --- */
+        .page-header {
+            background: var(--royal-purple);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        .page-header h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 3.5rem; 
+            margin: 0; 
+            color: var(--gold-accent);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -60px auto 100px;
+            background: white;
+            padding: 80px;
+            border-radius: 15px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        #about-body {
+            font-size: 1.25rem;
+            color: #444;
+            white-space: pre-wrap; /* Keeps paragraph breaks from CMS */
+            font-weight: 300;
+        }
+
+        .image-wrapper {
+            position: sticky;
+            top: 100px;
+        }
+
+        #about-img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 20px 20px 0px var(--gold-accent);
+            display: none; /* Hidden until loaded */
+        }
+
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .container { padding: 40px 20px; margin-top: -30px; }
+            .nav-bar { padding: 20px; }
+        }
     </style>
 </head>
 <body>
+
     <nav class="nav-bar">
-        <a href="index.html" style="font-family:'Playfair Display'; font-size: 1.5rem; color: var(--gold-accent); margin: 0;">S.H.A.R.E</a>
-        <div><a href="index.html">Home</a><a href="who-we-are.html">About</a><a href="media.html">Gallery</a><a href="projects.html">Projects</a></div>
+        <a href="index.html" class="logo-text">S.H.A.R.E</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="who-we-are.html">About</a>
+            <a href="media.html">Gallery</a>
+            <a href="projects.html">Projects</a>
+        </div>
     </nav>
-    <div class="header"><h1 id="about-title">Who We Are</h1></div>
+
+    <header class="page-header">
+        <h1 id="about-title">Who We Are</h1>
+    </header>
+
     <div class="container">
-        <div id="about-body">Loading our story...</div>
-        <img id="about-img" src="" style="display:none;">
+        <div class="about-grid">
+            <div class="content">
+                <h2 style="font-family: 'Playfair Display'; color: var(--royal-purple); font-size: 2.5rem;">Our Mission & Vision</h2>
+                <div id="about-body">Loading the S.H.A.R.E story...</div>
+            </div>
+            <div class="image-wrapper">
+                <img id="about-img" src="" alt="Ministry Photo">
+            </div>
+        </div>
     </div>
+
+    <footer style="background: var(--royal-purple); color: white; padding: 60px 20px; text-align: center;">
+        <p style="opacity: 0.6; letter-spacing: 2px; font-size: 0.8rem;">&copy; 2026 S.H.A.R.E LOVE GLOBAL</p>
+    </footer>
+
     <script>
         const repoPath = 'https://davidamosbanda.github.io/share-love-ministry/';
-        async function load() {
+
+        async function loadAbout() {
             try {
-                // MATCHES YOUR CONFIG: _content/who-we-are.json
+                // Fetching from the file defined in your config.yml
                 const res = await fetch(`${repoPath}_content/who-we-are.json?t=${Date.now()}`);
-                const data = await res.json();
-                document.getElementById('about-title').innerText = data.title || "Who We Are";
-                document.getElementById('about-body').innerText = data.body || "";
-                if(data.image) {
-                    let name = data.image.split('/').pop();
-                    const img = document.getElementById('about-img');
-                    img.src = `${repoPath}images/${name}`;
-                    img.style.display = 'block';
+                if (res.ok) {
+                    const data = await res.json();
+                    
+                    document.getElementById('about-title').innerText = data.title || "Who We Are";
+                    document.getElementById('about-body').innerText = data.body || "Content coming soon.";
+                    
+                    if (data.image) {
+                        const img = document.getElementById('about-img');
+                        // Use the split/pop trick to handle any folder prefixing issues
+                        let imgName = data.image.split('/').pop();
+                        img.src = `${repoPath}images/${imgName}`;
+                        img.style.display = 'block';
+                    }
                 }
-            } catch(e) { console.error("About fail"); }
+            } catch (e) {
+                console.error("About page data failed to load:", e);
+                document.getElementById('about-body').innerText = "Unable to load content. Please check back later.";
+            }
         }
-        window.onload = load;
+
+        window.onload = loadAbout;
     </script>
 </body>
 </html>
