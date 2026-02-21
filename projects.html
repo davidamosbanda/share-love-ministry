@@ -6,13 +6,66 @@
     <title>Projects | S.H.A.R.E LOVE</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --royal-purple: #4b2c5e; --gold-accent: #d4af37; --soft-gray: #f8f9fa; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: #fff; }
-        header { background: var(--royal-purple); color: white; padding: 60px; text-align: center; border-bottom: 5px solid var(--gold-accent); }
+        :root { 
+            --royal-purple: #4b2c5e; 
+            --gold-accent: #d4af37; 
+            --soft-gray: #f8f9fa; 
+        }
         
-        .section-title { font-family: 'Playfair Display'; font-size: 2.5rem; text-align: center; margin-top: 60px; color: var(--royal-purple); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            background: #fff; 
+        }
+
+        header { 
+            background: var(--royal-purple); 
+            color: white; 
+            padding: 40px 20px; 
+            text-align: center; 
+            border-bottom: 5px solid var(--gold-accent); 
+        }
+
+        /* --- Clean Navigation Styling --- */
+        .nav-bar {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        .section-title { 
+            font-family: 'Playfair Display'; 
+            font-size: 2.5rem; 
+            text-align: center; 
+            margin-top: 60px; 
+            color: var(--royal-purple); 
+        }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px 10% 40px; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+            padding: 20px 10% 40px; 
+        }
         
         /* Clickable Card Styling */
         .project-link { text-decoration: none; color: inherit; display: block; }
@@ -33,20 +86,50 @@
             background: #fff;
         }
 
-        .status { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; color: var(--gold-accent); font-weight: bold; }
+        .status { 
+            text-transform: uppercase; 
+            font-size: 0.75rem; 
+            letter-spacing: 2px; 
+            color: var(--gold-accent); 
+            font-weight: bold; 
+        }
         
-        img { width: 100%; height: 220px; object-fit: cover; border-radius: 4px; margin: 15px 0; background: #eee; }
+        img { 
+            width: 100%; 
+            height: 220px; 
+            object-fit: cover; 
+            border-radius: 4px; 
+            margin: 15px 0; 
+            background: #eee; 
+        }
         
-        h3 { color: var(--royal-purple); margin: 10px 0; font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+        h3 { 
+            color: var(--royal-purple); 
+            margin: 10px 0; 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.5rem; 
+        }
         
-        p { line-height: 1.6; color: #555; font-size: 0.95rem; }
+        p { 
+            line-height: 1.6; 
+            color: #555; 
+            font-size: 0.95rem; 
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 style="font-family: 'Playfair Display'; letter-spacing: 2px;">KINGDOM PROJECTS</h1>
-        <a href="index.html" style="color: var(--gold-accent); text-decoration: none; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">← Return Home</a>
+        <h1 style="font-family: 'Playfair Display'; letter-spacing: 2px; margin: 0;">KINGDOM PROJECTS</h1>
+        
+        <nav class="nav-bar">
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/media">Gallery</a>
+                <a href="/projects">Projects</a>
+            </div>
+        </nav>
     </header>
 
     <h2 class="section-title">Past Victories</h2>
@@ -79,12 +162,13 @@
 
                         const sectionGrid = document.getElementById(`grid-${project.status}`);
                         if (sectionGrid) {
-                            // PHOTO FIX: Ensure path includes 'images/' correctly
-                            const imgPath = project.image.startsWith('images/') ? project.image : `images/${project.image}`;
+                            // IMAGE FIX: Ensure path is root-relative for clean URLs
+                            let rawPath = project.image || "";
+                            const imgPath = rawPath.startsWith('/') ? rawPath : `/${rawPath.startsWith('images/') ? rawPath : 'images/' + rawPath}`;
                             
-                            // CLICK FIX: Wrap the card in an <a> tag pointing to a detail page
+                            // Link fix: using clean project-detail path if you set that up similarly
                             const card = `
-                                <a href="project-detail.html?title=${encodeURIComponent(project.title)}" class="project-link">
+                                <a href="/project-detail?title=${encodeURIComponent(project.title)}" class="project-link">
                                     <div class="card">
                                         <span class="status">${project.status}</span>
                                         ${project.image ? `<img src="${imgPath}" alt="${project.title}">` : ''}
