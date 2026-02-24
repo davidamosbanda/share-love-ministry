@@ -36,15 +36,20 @@
             padding: 15px 60px; 
             box-shadow: 0 4px 30px rgba(0,0,0,0.3); 
         }
-        .logo-text { 
-            font-family: 'Playfair Display', serif; 
-            color: var(--gold-accent); 
-            font-size: 1.8rem; 
-            letter-spacing: 3px; 
+        
+        /* Placeholder for your future logo */
+        .logo-placeholder { 
             text-decoration: none; 
-            font-weight: 700;
+            min-width: 50px; 
+            min-height: 20px;
         }
-        .nav-links { display: flex; gap: 40px; }
+
+        .nav-links { 
+            display: flex; 
+            gap: 30px; 
+            align-items: center; 
+        }
+        
         .nav-links a { 
             color: var(--noble-white); 
             text-decoration: none; 
@@ -53,8 +58,24 @@
             letter-spacing: 2px; 
             font-weight: 600; 
             transition: 0.3s;
+            display: inline-block;
+            line-height: 1;
         }
         .nav-links a:hover { color: var(--gold-accent); }
+
+        .nav-give-btn {
+            color: var(--gold-accent) !important; 
+            border: 2px solid var(--gold-accent); 
+            padding: 10px 22px !important; 
+            border-radius: 50px; 
+            margin-left: 10px;
+            font-size: 0.8rem !important;
+            transition: all 0.3s ease !important;
+        }
+        .nav-give-btn:hover {
+            background: var(--gold-accent);
+            color: var(--royal-purple) !important;
+        }
 
         /* --- HERO SECTION --- */
         .hero {
@@ -124,21 +145,21 @@
 </head>
 <body>
 
-    <nav class="nav-bar">
-    <a href="/" class="logo-text"></a>
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/media">Gallery</a>
-        <a href="/projects">Projects</a>
-     <a href="/give" style="color: var(--gold-accent); border: 2px solid var(--gold-accent); padding: 8px 20px; border-radius: 50px; margin-left: 10px; transition: 0.3s;">Give</a>
-    </div>
-</nav>
+    <nav class="nav-bar" id="navbar">
+        <a href="/" class="logo-placeholder"></a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/media">Gallery</a>
+            <a href="/projects">Projects</a>
+            <a href="/give" class="nav-give-btn">Give</a>
+        </div>
+    </nav>
 
     <section class="hero" id="hero-slider">
         <div class="hero-content">
             <h1 id="hero-title">S.H.A.R.E LOVE GLOBAL</h1>
-            <p id="hero-subtitle">MINISTRY OF COMPASSION</p>
+            <p id="hero-subtitle">A Ministry of Grace, Love and Compassion</p>
         </div>
     </section>
 
@@ -171,7 +192,6 @@
         async function init() {
             const cacheBust = `?t=${Date.now()}`;
             
-            // 1. DATA PULL (Home Content)
             try {
                 const res = await fetch(`${repoPath}_content/home.json${cacheBust}`);
                 if (res.ok) {
@@ -196,7 +216,6 @@
                 }
             } catch(e) { console.error("Text load failed."); }
 
-            // 2. IMAGE PULL (Slider)
             try {
                 const res = await fetch(`${repoPath}_content/slider.json${cacheBust}`);
                 if (res.ok) {
@@ -210,7 +229,6 @@
                             const div = document.createElement('div');
                             div.className = i === 0 ? 'slide active' : 'slide';
                             
-                            // Advanced Pathing: Strip folders and force repo images root
                             let imgName = slide.image.split('/').pop(); 
                             let finalUrl = `${repoPath}images/${imgName}`;
 
@@ -235,8 +253,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
