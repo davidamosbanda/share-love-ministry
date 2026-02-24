@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ways to Give | S.H.A.R.E LOVE GLOBAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --royal-purple: #4b2c5e; 
+            --noble-white: #ffffff; 
+            --gold-accent: #d4af37; 
+            --venmo-blue: #3d95ce;
+            --zelle-purple: #671bc4;
+        }
+
+        body { 
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif; 
+            background: #fdfbfd; color: #333; 
+            display: flex; flex-direction: column; min-height: 100vh;
+            align-items: center;
+        }
+
+        /* Hero Header */
+        .give-header {
+            background: var(--royal-purple);
+            width: 100%;
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+            border-bottom: 5px solid var(--gold-accent);
+        }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 3.5rem; margin: 0; 
+            letter-spacing: 2px;
+        }
+
+        .subtitle { 
+            color: var(--gold-accent); 
+            letter-spacing: 4px; 
+            text-transform: uppercase; 
+            font-size: 0.9rem; 
+            margin-top: 15px;
+            display: block; 
+        }
+
+        /* Content Area */
+        .content {
+            max-width: 500px;
+            width: 90%;
+            margin: -40px auto 60px; /* Overlaps header for modern look */
+        }
+
+        .give-card {
+            background: white; 
+            border-radius: 24px; 
+            padding: 35px; 
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.07); 
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .give-card:hover { transform: translateY(-8px); box-shadow: 0 20px 45px rgba(0,0,0,0.1); }
+
+        .icon-box {
+            width: 70px; height: 70px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 1.8rem;
+        }
+
+        .v-bg { background: var(--venmo-blue); color: white; }
+        .z-bg { background: var(--zelle-purple); color: white; }
+        .t-bg { background: #333; color: white; }
+
+        .method-name { font-size: 1.5rem; font-weight: 700; color: var(--royal-purple); margin-bottom: 8px; }
+        .method-id { color: #777; font-size: 1.1rem; margin-bottom: 25px; display: block; }
+
+        .btn {
+            display: block; width: 100%; padding: 18px; border-radius: 15px;
+            text-decoration: none; font-weight: 700; letter-spacing: 1px;
+            transition: 0.3s; cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+
+        .btn-v { background: var(--venmo-blue); color: white; }
+        .btn-z { background: var(--zelle-purple); color: white; }
+        .btn-t { background: #f4f4f4; color: #333; border: 1px solid #ddd; }
+        
+        .btn:hover { filter: brightness(1.1); }
+
+        /* Toast Message */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: var(--royal-purple);
+            color: #fff; text-align: center; border-radius: 50px; padding: 16px;
+            position: fixed; z-index: 10; left: 50%; bottom: 30px; transform: translateX(-50%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        footer-link { margin-top: 20px; display: block; color: var(--royal-purple); text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <header class="give-header">
+        <h1>Ways to Give</h1>
+        <span class="subtitle">Partnership & Generosity</span>
+    </header>
+
+    <div class="content">
+        <div class="give-card">
+            <div class="icon-box v-bg"><i class="fab fa-venmo"></i></div>
+            <div class="method-name">Venmo</div>
+            <span class="method-id">@Kristell-Willmer</span>
+            <a href="https://venmo.com/u/Kristell-Willmer" target="_blank" class="btn btn-v">GIVE VIA VENMO</a>
+        </div>
+
+        <div class="give-card">
+            <div class="icon-box z-bg"><i class="fas fa-university"></i></div>
+            <div class="method-name">Zelle</div>
+            <span class="method-id">kristellwillmer@gmail.com</span>
+            <button onclick="copyText('kristellwillmer@gmail.com', 'Zelle ID')" class="btn btn-z">COPY ZELLE EMAIL</button>
+        </div>
+
+        <div class="give-card">
+            <div class="icon-box t-bg"><i class="fas fa-hand-holding-heart"></i></div>
+            <div class="method-name">Tax-Deductible</div>
+            <span class="method-id">Special handling required</span>
+            <a href="mailto:kristellwillmer@gmail.com?subject=Tax-Deductible Donation Inquiry" class="btn btn-t">EMAIL FOR DETAILS</a>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/" class="footer-link">← Return to Home</a>
+        </div>
+    </div>
+
+    <div id="toast">Copied to clipboard!</div>
+
+    <script>
+        function copyText(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById("toast");
+                toast.innerText = label + " copied to clipboard!";
+                toast.className = "show";
+                setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
